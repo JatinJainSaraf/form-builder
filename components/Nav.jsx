@@ -9,6 +9,10 @@ const Nav = () => {
         const parsedUserDetails = userDetailsString ? JSON.parse(userDetailsString) : null;
         setUserDetails(parsedUserDetails);
     }, []);
+    const signOut = () => {
+        sessionStorage.clear()
+        window.location.href = "/"
+    }
     return (
         <>
             <nav className='flex-between w-full mb-16 pt-3'>
@@ -26,9 +30,7 @@ const Nav = () => {
                                     Form Builder
                                 </Link>
 
-                                <Link href='/' onClick={() => sessionStorage.clear()} className='black_btn text-decoration-none'>
-                                    Sign Out
-                                </Link>
+                                <button className=" black_btn " onClick={signOut}>Sign Out</button>
                             </div>
                         ) : (
                             <div className='flex gap-3 md:gap-5'>
@@ -39,9 +41,7 @@ const Nav = () => {
                                     Fill Form
                                 </Link>
 
-                                <Link href='/' onClick={() => sessionStorage.clear()} className='black_btn text-decoration-none'>
-                                    Sign Out
-                                </Link>
+                                <button className=" black_btn " onClick={signOut}>Sign Out</button>
                             </div>
                         ) : (
                             <>
