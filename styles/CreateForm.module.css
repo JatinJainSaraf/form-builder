@@ -1,0 +1,45 @@
+    .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: 20px;
+  }
+  
+  .elements-section {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: 250px;
+  }
+  
+  .draggable-element {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px 10px;
+    margin-bottom: 5px;
+    cursor: move;
+  }
+  
+  /* Form Designer Section */
+  .form-designer-section {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 10px;
+    flex-grow: 1;
+  }
+  
+  .form {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .form-element {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    margin: 5px;
+    cursor: move;
+  }
+  
