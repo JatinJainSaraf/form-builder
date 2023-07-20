@@ -1,18 +1,11 @@
 "use client";
 import Link from "next/link";
-import { useState, useEffect } from 'react';
+import {signIn, signOut, useSession } from "next-auth/react"
 
 const Nav = () => {
-    const [userDetails, setUserDetails] = useState(null);
-    useEffect(() => {
-        const userDetailsString = sessionStorage.getItem('userDetails');
-        const parsedUserDetails = userDetailsString ? JSON.parse(userDetailsString) : null;
-        setUserDetails(parsedUserDetails);
-    }, []);
-    const signOut = () => {
-        sessionStorage.clear()
-        window.location.href = "/"
-    }
+    const { data: session, status } = useSession() 
+ 
+ 
     return (
         <>
             <nav className='flex-between w-full mb-16 pt-3'>
@@ -20,8 +13,8 @@ const Nav = () => {
                     <p className='logo_text'>Form Builder</p>
                 </Link>
                 <div className='sm:flex hidden'>
-                    {userDetails ?
-                        userDetails.role === "Admin" ? (
+                    {status === 'authenticated' ?
+                        session.user.name === "Admin" ? (
                             <div className='flex gap-3 md:gap-5'>
                                 <Link href='/dashboard' className='black_btn text-decoration-none'>
                                     Dashboard
@@ -45,10 +38,10 @@ const Nav = () => {
                             </div>
                         ) : (
                             <>
-                                {!userDetails &&
-                                    <Link href='/signin' className='black_btn text-decoration-none'>
+                                {status !== 'authenticated' &&
+                                    <button className='black_btn text-decoration-none' onClick={signIn}>
                                         SignIn
-                                    </Link>
+                                    </button>
                                 }
                             </>
                         )

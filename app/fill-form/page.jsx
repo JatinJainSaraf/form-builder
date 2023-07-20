@@ -9,7 +9,7 @@ const FillForm = () => {
       const response = await fetch("/api/fill-form"); 
       if (response.ok) {
         const formData = await response.json();
-        setForm({components: formData});
+        setForm({...formData.formJson});
       } else {
         console.log("Failed to fetch form data. Status:", response.status);
       }

@@ -5,8 +5,8 @@ let FormModel;
 function getFormModel() {
   if (!FormModel) {
     const formSchema = new mongoose.Schema({
-      components: {
-        type: mongoose.Schema.Types.Mixed,
+      formJson: {
+        type: Object,
         required: true,
       },
     });

@@ -5,9 +5,15 @@ export const POST = async (request) => {
     const formJson = await request.json();
     try {
         await connectToDB();
-        const newForm = new Form(formJson);
-        await newForm.save();
-        return new Response(newForm, { status: 201 })
+        let formData = await Form.findOne();
+        if (formData) {
+            formData.formJson = formJson
+            await formData.save()
+        } else {
+            formData = new Form({formJson});
+            await formData.save();
+        }
+        return new Response(formData, { status: 201 })
     } catch (error) {
         return new Response("Failed to create a new Form", { status: 500 });
     }
