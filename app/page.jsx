@@ -1,10 +1,10 @@
-import React from 'react'
+import React from 'react';
 import Welcome from './Welcome/page';
 
 const Home = () => {
-  return (
-   <Welcome />
-  )
-}
+	return (
+		<Welcome/>
+	);
+};
 
-export default Home
+export default Home;

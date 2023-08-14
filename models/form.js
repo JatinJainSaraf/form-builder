@@ -3,18 +3,18 @@ import mongoose from 'mongoose';
 let FormModel;
 
 function getFormModel() {
-  if (!FormModel) {
-    const formSchema = new mongoose.Schema({
-      formJson: {
-        type: Object,
-        required: true,
-      },
-    });
+	if (!FormModel) {
+		const formSchema = new mongoose.Schema({
+			formJson: {
+				type: Object,
+				required: true,
+			},
+		});
 
-    FormModel = mongoose.models.Form || mongoose.model('Form', formSchema);
-  }
+		FormModel = mongoose.models.Form || mongoose.model('Form', formSchema);
+	}
 
-  return FormModel;
+	return FormModel;
 }
 
 export default getFormModel();
