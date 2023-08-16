@@ -1,18 +1,11 @@
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
-import CredentialsProvider from 'next-auth/providers/credentials';
 import { connectToDB } from '@utils/database';
 import { GOOGLE_CLIENT_SECRET, GOOGLE_ID } from '@config';
-
+import User from '@models/user';
+import bcrypt from 'bcrypt';
 const handler = NextAuth({
 	providers: [
-		CredentialsProvider({
-			name: 'Credentials',
-			credentials: {
-				username: {label: 'Email', type: 'text', placeholder: 'Enter Username'},
-				password: {label: 'Password', type: 'password'}
-			}
-		}),
 		GoogleProvider({
 			profile(profile) {
 				return {
@@ -30,39 +23,42 @@ const handler = NextAuth({
 					response_type: 'code',
 				},
 			},
-		})
+		}),
 	],
 	callbacks: {
-		async signIn(user, account, profile) {
-			console.log('------------------------');
-			console.log(profile);
+		async session({ session }) {
+			console.log('🚀 ~ file: route.js:30 ~ session ~ session:', session);
 			await connectToDB();
-			// const user = await User.findOne({ email: credentials.email, password: credentials.password });
-			// if (user) {
-			// 	return {
-			// 		email: user.email,
-			// 		name: user.name,
-			// 		role: user.role,
-			// 		image: credentials.picture,
-			// 		avatar: credentials.name.split('')[0].charAt(0),
-			// 	};
-			// } else {
-			// 	const user = {
-			// 		email: credentials.email,
-			// 		username: credentials.username,
-			// 		role: credentials.role,
-			// 		password: credentials.password,
-			// 	};
-			// 	await User.save(user);
-			// 	return {
-			// 		...user,
-			// 		image: credentials.picture,
-			// 		avatar: credentials.name.split('')[0].charAt(0),
-			// 	};
-			// }
-		}
-
-	}
+			const dbUser = await User.findOne({ email: session.user.email });
+			session.user = dbUser;
+			return session;
+		},
+		async signIn({ user, account, profile }) {
+			try {
+				await connectToDB();
+				if (account.provider === 'google' && profile.email_verified === true) {
+					const dbUser = await User.findOne({ email: user.email });
+					if (dbUser) {
+						return true;
+					} else {
+						const newUser = {
+							email: user.email,
+							username: user.email,
+							role: user.email.endsWith('@codezeros.com') ? 'Admin' : 'User',
+							password: await bcrypt.hash(user.email, 10),
+						};
+						await User.create(newUser);
+						return true;
+					}
+				} else {
+					return false;
+				}
+			} catch (e) {
+				console.error(e);
+				throw new Error(e.message);
+			}
+		},
+	},
 });
 
 export { handler as GET, handler as POST };

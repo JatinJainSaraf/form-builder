@@ -12,7 +12,7 @@ const Nav = () => {
 				<Link href='/' className='flex gap-2 text-decoration-none flex-center'>
 					<p className='logo_text'>Form Builder</p>
 				</Link>
-				<div className='sm:flex hidden'>
+				<div className='sm:flex'>
 					{status === 'authenticated' ?
 						session.user.role === 'Admin' ? (
 							<div className='flex gap-3 md:gap-5'>
