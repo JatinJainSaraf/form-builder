@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import {signIn, signOut, useSession} from 'next-auth/react';
 import React from 'react';
+import { ROLE } from '@constant/constant';
 const Nav = () => {
 	const {data: session, status} = useSession();
 
@@ -14,7 +15,7 @@ const Nav = () => {
 				</Link>
 				<div className='sm:flex'>
 					{status === 'authenticated' ?
-						session.user.role === 'Admin' ? (
+						session.user.role === ROLE.ADMIN ? (
 							<div className='flex gap-3 md:gap-5'>
 								<Link href='/dashboard' className='black_btn text-decoration-none'>
                                     Dashboard

@@ -1,9 +1,8 @@
 'use client';
-import {useState} from 'react';
-import {useRouter} from 'next/navigation';
+import React, {useState} from 'react';
+import { ROLE } from '@constant/constant';
 
 const SignInComponent = () => {
-	const router = useRouter();
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const handleSignIn = async (e) => {
@@ -20,7 +19,7 @@ const SignInComponent = () => {
 		if (response.ok) {
 			const responseJson = await response.json();
 			sessionStorage.setItem('userDetails', JSON.stringify(responseJson));
-			if (responseJson.role === 'Admin') {
+			if (responseJson.role === ROLE.ADMIN) {
 				window.location.href = '/form-builder';
 			} else {
 				window.location.href = '/fill-form';
