@@ -1,8 +1,8 @@
 import '@styles/globals.css';
-
 import Nav from '@components/Nav';
 import Provider from '@components/Provider';
 import React from 'react';
+import PropTypes from 'prop-types'; 
 export const metadata = {
 	title: 'Form Builder',
 	description: 'Discover',
@@ -13,16 +13,20 @@ const RootLayout = ({ children }) => (
 		<body>
 			<Provider>
 				<div className='main'>
-					<div className='gradient'/>
+					<div className='gradient' />
 				</div>
 
 				<main className='app'>
-					<Nav/>
+					<Nav />
 					{children}
 				</main>
 			</Provider>
 		</body>
 	</html>
 );
+
+RootLayout.propTypes = {
+	children: PropTypes.node.isRequired,
+};
 
 export default RootLayout;

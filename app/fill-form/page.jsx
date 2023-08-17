@@ -1,6 +1,6 @@
 'use client';
 import {Form} from '@formio/react';
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 const FillForm = () => {
 	const [form, setForm] = useState();

@@ -1,20 +1,30 @@
-import mongoose from 'mongoose';
+import {model, models, Schema} from 'mongoose';
 
-let FormModel;
+const FormSchema = new Schema({
+	formJson: {
+		type:Object,
+		required: true,
+	}, 
+	email: {
+		type: String,
+		require: true,
+	},
+	users: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: 'User', 
+		},
+	],
+	formName: {
+		type: String,
+		required: true,
+	},
+},{
+	collection: 'forms',
+	versionKey: false,
+	timestamps: {createdAt: 'createdAt', updatedAt: 'updateAt'}
+});
 
-function getFormModel() {
-	if (!FormModel) {
-		const formSchema = new mongoose.Schema({
-			formJson: {
-				type: Object,
-				required: true,
-			},
-		});
+const Form= models.Form || model('Form', FormSchema);
 
-		FormModel = mongoose.models.Form || mongoose.model('Form', formSchema);
-	}
-
-	return FormModel;
-}
-
-export default getFormModel();
+export default Form;
