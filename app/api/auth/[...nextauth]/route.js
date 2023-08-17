@@ -68,10 +68,12 @@ const handler = NextAuth({
 				if (account.provider === 'google' && profile.email_verified === true) {
 					const dbUser = await User.findOne({ email: user.email });
 					if (dbUser) {
+						console.log(profile,user,account);
 						return true;
 					} else {
 						const newUser = {
 							email: user.email,
+							name: user.name,
 							username: user.email,
 							role: user.email.endsWith('@codezeros.com') ? ROLE.ADMIN : ROLE.USER,
 							password: await bcrypt.hash(user.email, 10),

@@ -4,7 +4,7 @@ import React from 'react';
 import { useSession } from 'next-auth/react';
 import { ROLE } from '@constant/constant';
 import { AdminLandingPage } from '@components/AdminLandingPage';
-import { UserLandingPage } from '@components/UserLandingPage';
+import {UserLandingPage} from '@components/UserLandingPage';
 
 const Welcome = () => {
 	const { data: session, status } = useSession();

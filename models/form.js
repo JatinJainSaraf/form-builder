@@ -9,12 +9,6 @@ const FormSchema = new Schema({
 		type: String,
 		require: true,
 	},
-	users: [
-		{
-			type: Schema.Types.ObjectId,
-			ref: 'User', 
-		},
-	],
 	formName: {
 		type: String,
 		required: true,

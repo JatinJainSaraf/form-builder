@@ -14,9 +14,19 @@ const UserSchema = new Schema({
 		type: String,
 		required: [true, 'Role is required'],
 	},
+	forms: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: 'Form'
+		},
+	],
 	password: {
 		type: String,
 		required: [true, 'Password is required!'],
+	},
+	name: {
+		type: String,
+		required: true,
 	}
 }, {
 	collection: 'users',
