@@ -3,7 +3,7 @@ import Welcome from './Welcome/page';
 
 const Home = () => {
 	return (
-		<Welcome/>
+		<Welcome />
 	);
 };
 

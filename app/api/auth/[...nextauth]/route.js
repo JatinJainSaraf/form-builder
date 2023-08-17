@@ -38,9 +38,8 @@ const handler = NextAuth({
 				email: { label: 'Email', type: 'text', placeholder: 'Enter your email' },
 				password: { label: 'Password', type: 'password' }
 			},
-			async authorize(credentials, req) {
+			async authorize(credentials) {
 				try{
-					console.log(req);
 					const user =await User.findOne({email: credentials.email});
 					if (user) {
 						const passwordMatch = await bcrypt.compare(credentials.password, user.password);
