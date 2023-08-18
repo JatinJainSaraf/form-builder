@@ -22,7 +22,7 @@ const CreateForm = () => {
 			const response = await fetch('/api/form-builder', {
 				method: 'POST',
 				headers: {
-					'x-user': session?.user?.email,
+					'x-user': session?.user?.id,
 					'Content-Type': 'application/json',
 				},
 				body: JSON.stringify({
