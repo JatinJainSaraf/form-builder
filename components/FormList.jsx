@@ -3,11 +3,14 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons'; // Import FontAwesome icons
 import PropTypes from 'prop-types';
-const FormList = ({ forms }) => {
-	const handleEdit = () => {
+import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import { ROLE } from '@constant/constant';
 
-	};
-	const handleDelete = ()=> {
+const FormList = ({ forms }) => {
+	const {data: session} = useSession();
+	const router = useRouter();
+	const handleDelete = () => {
 	};
 	return (
 		<>
@@ -17,10 +20,10 @@ const FormList = ({ forms }) => {
 				<table className="table-auto w-full border-collapse">
 					<thead>
 						<tr className="bg-gray-200 items-center">
-							{forms && forms.length>0 && Object.keys(forms[0]).map((key, index)=>{
+							{forms && forms.length > 0 && Object.keys(forms[0]).map((key, index) => {
 								return (<th key={index}>{key}</th>);
 							})}
-							{forms && forms.length>0 ? <th>Actions</th>:<th>No Form Found</th> }
+							{forms && forms.length > 0 ? <th>Actions</th> : <th>No Form Found</th>}
 						</tr>
 					</thead>
 					<tbody>
@@ -28,15 +31,22 @@ const FormList = ({ forms }) => {
 							<tr key={rowIndex}>
 								{Object.values(form).map((value, colIndex) => (
 									<td key={colIndex} className="border px-4 py-2">
-										{value === true || value===false ? value.toString(): value}
+										{value === true || value === false ? value.toString() : value}
 									</td>
 								))}
 								<td key={'Action'} className="border px-4 py-2">
-									{!form.isFormFilled && <FontAwesomeIcon
-										icon={faEdit}
-										className="text-blue-500 cursor-pointer"
-										onClick={() => handleEdit(form.formId)}
-									/>}
+									{!form.isFormFilled &&
+										(<button onClick={() => {
+											if(session?.user?.role === ROLE.ADMIN) router.push(`/form-builder/edit-form/${form.formId}`);
+											if(session?.user?.role === ROLE.USER) router.push(`/fill-form/${form.formId}`);
+										}
+										}>
+											<FontAwesomeIcon
+												icon={faEdit}
+												className="text-blue-500 cursor-pointer"
+											/></button>)
+
+									}
 									<FontAwesomeIcon
 										icon={faTrash}
 										className="text-danger-500 cursor-pointer"
@@ -52,6 +62,6 @@ const FormList = ({ forms }) => {
 	);
 };
 FormList.propTypes = {
-	forms: PropTypes.array.isRequired, 
+	forms: PropTypes.array.isRequired,
 };
 export default FormList;

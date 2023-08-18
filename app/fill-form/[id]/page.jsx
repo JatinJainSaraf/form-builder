@@ -1,12 +1,17 @@
 'use client';
-import {Form} from '@formio/react';
 import React, {useEffect, useState} from 'react';
+import PropTypes from 'prop-types';
+import {Form} from '@formio/react';
 
-const FillForm = () => {
+function EditFillForm({params: {id}}) {
 	const [form, setForm] = useState();
-	const getForm = async () => {
+	const getForm = async (formId) => {
 		try {
-			const response = await fetch('/api/fill-form');
+			const response = await fetch(`/api/form/fill-form/get-fill-form/${formId}`, {
+				headers: {
+					'x-form-id': formId
+				}
+			});
 			if (response.ok) {
 				const formData = await response.json();
 				setForm({...formData.formJson});
@@ -18,7 +23,9 @@ const FillForm = () => {
 		}
 	};
 	useEffect(() => {
-		getForm();
+		if(id){
+			getForm(id);
+		}
 	}, []);
 	return (
 		<div className="max-w-md mx-auto mt-8 p-4 shadow-md rounded">
@@ -32,6 +39,11 @@ const FillForm = () => {
 			)}
 		</div>
 	);
+}
+
+EditFillForm.propTypes = {
+	params: PropTypes.object.isRequired
 };
 
-export default FillForm;
+export default EditFillForm;
+
