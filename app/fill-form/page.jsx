@@ -11,10 +11,10 @@ const FillForm = () => {
 				const formData = await response.json();
 				setForm({...formData.formJson});
 			} else {
-				console.log('Failed to fetch form data. Status:', response.status);
+				console.error('Failed to fetch form data. Status:', response.status);
 			}
 		} catch (error) {
-			console.log('Error fetching form data:', error);
+			console.error('Error fetching form data:', error);
 		}
 	};
 	useEffect(() => {

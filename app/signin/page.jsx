@@ -24,7 +24,7 @@ const SignInComponent = () => {
 			} else {
 				window.location.href = '/fill-form';
 			}
-			console.log('Sign-in successful!');
+			console.info('Sign-in successful!');
 		} else {
 			console.error('Sign-in failed');
 		}

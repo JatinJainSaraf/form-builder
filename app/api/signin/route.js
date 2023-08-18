@@ -16,7 +16,7 @@ export const POST = async (request) => {
 		const session = {userId: user._id, username: user.username, email: user.email, role: user.role};
 		return new Response(JSON.stringify(session), {status: 200});
 	} catch (error) {
-		console.log('Error checking if user exists: ', error.message);
+		console.error('Error checking if user exists: ', error.message);
 		return false;
 	}
 };

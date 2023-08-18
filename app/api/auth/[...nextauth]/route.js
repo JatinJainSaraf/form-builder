@@ -72,6 +72,7 @@ const handler = NextAuth({
 					} else {
 						const newUser = {
 							email: user.email,
+							name: user.name,
 							username: user.email,
 							role: user.email.endsWith('@codezeros.com') ? ROLE.ADMIN : ROLE.USER,
 							password: await bcrypt.hash(user.email, 10),
