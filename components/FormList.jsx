@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons'; // Import FontAwesome icons
+import { faAdd, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons'; // Import FontAwesome icons
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
@@ -14,8 +14,16 @@ const FormList = ({ forms }) => {
 	};
 	return (
 		<>
-			<h2 className="text-2xl font-semibold mb-4">List of Forms</h2>
-
+			<div className='flex items-center justify-between'>
+				<h2 className="text-2xl font-semibold mb-4">List of Forms</h2>
+				<button className='btn border-black' onClick={()=>router.push('/form-builder/create-form')}> 
+					<FontAwesomeIcon 
+						icon={faAdd}
+						className='text-danger mx-2'
+					/>
+				Add Form</button>
+			</div>
+			
 			<div className="bg-gray-100 p-8">
 				<table className="table-auto w-full border-collapse">
 					<thead>
