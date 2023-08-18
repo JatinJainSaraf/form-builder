@@ -4,9 +4,9 @@ import { connectToDB } from '@utils/database';
 
 export const POST = async (request) => {
 	const { jsonSchema, formConfigs: { formName, selectedUsers } } = await request.json();
-	const email = await request.headers.get('x-user');
+	const id = await request.headers.get('x-user');
   
-	if (!email) {
+	if (!id) {
 		return new Response('User not found', { status: 404 });
 	}
 
@@ -17,9 +17,8 @@ export const POST = async (request) => {
 		const formData = {
 			formJson: jsonSchema,
 			formName: formName,
-			email: email,
+			createdBy: id
 		};
-
 		const newForm = await Form.create(formData);
 
 		await Promise.all(users.map(async (user) => {
