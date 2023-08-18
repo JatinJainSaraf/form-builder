@@ -8,6 +8,6 @@ export const GET = async ()=> {
 	
 		return new Response(JSON.stringify(users), {status: 200});
 	} catch (error) {
-		return new Response('Failed to load forms', {status: 500});
+		return new Response('Failed to load users', {status: 500});
 	}
 };

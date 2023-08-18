@@ -9,9 +9,9 @@ const CreateForm = () => {
 	const [jsonSchema, setJsonSchema] = useState({ components: [] });
 	const [formConfigs, setFormConfigs] = useState({
 		formName: '',
-		selectedUsers: []
+		selectedUsers: [],
 	});
-	const [users, setUsers] = useState([]);
+	const [usersOptions, setUsersOptions] = useState([]);
 
 	const handleFormChange = useCallback((schema) => {
 		setJsonSchema({ ...schema, components: [...schema.components] });
@@ -32,7 +32,7 @@ const CreateForm = () => {
 			});
 
 			if (response.ok) {
-				console.log('Form Saved Successfully');
+				console.info('Form Saved Successfully');
 			}
 		} catch (error) {
 			console.error('Error saving form:', error);
@@ -46,23 +46,7 @@ const CreateForm = () => {
 			[id]: value,
 		}));
 	};
-	const fetchUsers = async () => {
-		try {
-			const response = fetch('api/fetch-users', {
-				headers: {
-					'Content-Type': 'application/json',
-				}
-			});
-			if (response.ok) {
-				const users = await response.json();
-				setUsers(users);
-			}
-		} catch (e) {
-			console.error('Error fetching users:', e);
-		}
-	};
-
-	const handleSelectChange = (field, event) => {
+	const handleMultiSelectChange = (field, event) => {
 		const selectedOptions = event.target.options;
 		const selectedUsers = [];
 
@@ -77,46 +61,54 @@ const CreateForm = () => {
 			[field]: selectedUsers,
 		}));
 	};
-
+	const fetchUsers = async () => {
+		try {
+			const response = await fetch('api/fetch-users');
+			if (response.ok) {
+				const users = await response.json();
+				setUsersOptions(users);
+			}
+		} catch (e) {
+			console.error('Error fetching users:', e);
+		}
+	};
 	useEffect(() => {
 		fetchUsers();
-		return () => {
-		};
-	}, [session]);
+	}, []);
 
 	return (
-		<div className='bg-body-secondary p-8 shadow-md'>
-			<h1>Form Builder</h1>
-			<div className='bg-white p-2 shadow-lg mb-5'>
-				<h5>Form Configs</h5>
-				<br />
-				<div className='flex gap-28'>
-					<div>
-						<label htmlFor='formName' className='mx-5'>
+		<div className="bg-body-secondary p-8 shadow-md">
+			<h1 className="text-2xl font-semibold mb-4">Form Builder</h1>
+			<div className="bg-white p-4 shadow-lg mb-6">
+				<h2 className="text-lg font-semibold mb-2">Form Configs</h2>
+				<div className="flex flex-col md:flex-row gap-8">
+					<div className="w-full md:w-1/2">
+						<label htmlFor="formName" className="block text-sm font-medium text-gray-700">
 							Form Name
 						</label>
 						<input
-							className='border-2'
-							type='text'
-							placeholder='Form Name'
-							id='formName'
+							className="border border-gray-300 mt-1 px-3 py-2 w-full rounded-md focus:outline-none focus:ring focus:border-blue-300"
+							type="text"
+							placeholder="Form Name"
+							id="formName"
 							onChange={handleInput}
 							value={formConfigs.formName}
 						/>
 					</div>
-					<div className='flex'>
-						<label htmlFor='usersDropdown' className='mx-5'>
+					<div className="w-full md:w-1/2">
+						<label htmlFor="usersDropdown" className="block text-sm font-medium text-gray-700">
 							Users
 						</label>
 						<select
-							id='usersDropdown'
+							id="usersDropdown"
 							multiple
-							onChange={(event) => handleSelectChange('selectedUsers', event)}
+							className="border border-gray-300 mt-1 px-3 py-2 w-full rounded-md focus:outline-none focus:ring focus:border-blue-300"
 							value={formConfigs.selectedUsers}
+							onChange={(event) => handleMultiSelectChange('selectedUsers', event)}
 						>
-							<option value=''>Select a user</option>
-							{users.map((user) => (
-								<option key={user.id} value={user.id}>
+							<option value={''}>Select User</option>
+							{usersOptions?.map((user) => (
+								<option key={user._id} value={user._id}>
 									{user.name}
 								</option>
 							))}
@@ -127,7 +119,10 @@ const CreateForm = () => {
 			<div>
 				<FormBuilder form={jsonSchema} onChange={handleFormChange} />
 			</div>
-			<button onClick={handleSave} className='btn btn-primary'>
+			<button
+				onClick={handleSave}
+				className="py-2 px-4 bg-blue-500 hover:bg-blue-600 text-white rounded-md focus:outline-none focus:ring focus:border-blue-300"
+			>
 				Save
 			</button>
 		</div>

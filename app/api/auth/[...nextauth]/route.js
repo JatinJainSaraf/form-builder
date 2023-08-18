@@ -68,7 +68,6 @@ const handler = NextAuth({
 				if (account.provider === 'google' && profile.email_verified === true) {
 					const dbUser = await User.findOne({ email: user.email });
 					if (dbUser) {
-						console.log(profile,user,account);
 						return true;
 					} else {
 						const newUser = {
