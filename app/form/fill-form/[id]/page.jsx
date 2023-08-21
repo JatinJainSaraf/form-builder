@@ -26,7 +26,7 @@ function EditFillForm({params: {id}}) {
 		if(id){
 			getForm(id);
 		}
-	}, []);
+	}, [id]);
 	return (
 		<div className="max-w-md mx-auto mt-8 p-4 shadow-md rounded">
 			{form ? (
@@ -44,6 +44,8 @@ function EditFillForm({params: {id}}) {
 EditFillForm.propTypes = {
 	params: PropTypes.object.isRequired
 };
+
+export const dynamic = 'force-dynamic'
 
 export default EditFillForm;
 
