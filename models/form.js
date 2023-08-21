@@ -5,19 +5,17 @@ const FormSchema = new Schema({
 		type:Object,
 		required: true,
 	}, 
-	email: {
-		type: String,
-		require: true,
-	},
-	users: [
-		{
-			type: Schema.Types.ObjectId,
-			ref: 'User', 
-		},
-	],
 	formName: {
 		type: String,
 		required: true,
+	},
+	createdBy: {
+		type: Schema.Types.ObjectId,
+		ref: 'User'
+	},
+	isFormFilled: {
+		type: Boolean,
+		default : false,
 	},
 },{
 	collection: 'forms',

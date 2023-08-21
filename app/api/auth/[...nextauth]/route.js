@@ -60,6 +60,7 @@ const handler = NextAuth({
 			await connectToDB();
 			const dbUser = await User.findOne({ email: session.user.email });
 			session.user.role = dbUser.role;
+			session.user.id = dbUser._id;
 			return session;
 		},
 		async signIn({ user, account, profile }) {
@@ -72,6 +73,7 @@ const handler = NextAuth({
 					} else {
 						const newUser = {
 							email: user.email,
+							name: user.name,
 							username: user.email,
 							role: user.email.endsWith('@codezeros.com') ? ROLE.ADMIN : ROLE.USER,
 							password: await bcrypt.hash(user.email, 10),
