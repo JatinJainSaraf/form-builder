@@ -11,7 +11,7 @@ const Form = ({ formTitle, formConfigs, setFormConfigs, usersOptions, jsonSchema
 	};
 	const handleFormChange = useCallback((schema) => {
 		setJsonSchema({ ...schema, components: [...schema.components] });
-	}, []);
+	}, [setJsonSchema]);
 	
 	const handleMultiSelectChange = (field, event) => {
 		const selectedOptions = event.target.options;

@@ -7,7 +7,7 @@ export const metadata = {
 	title: 'Form Builder',
 	description: 'Discover',
 };
-
+export const dynamic = "force-dynamic";
 const RootLayout = ({ children }) => (
 	<html lang='en'>
 		<body>
