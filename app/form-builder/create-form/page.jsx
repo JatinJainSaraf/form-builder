@@ -3,6 +3,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { FormBuilder } from '@formio/react';
 import { useSession } from 'next-auth/react';
 import '@styles/FormBuilder.module.css';
+import Form from '@components/Form';
 
 const CreateForm = () => {
 	const { data: session } = useSession();
@@ -13,13 +14,13 @@ const CreateForm = () => {
 	});
 	const [usersOptions, setUsersOptions] = useState([]);
 
-	const handleFormChange = useCallback((schema) => {
-		setJsonSchema({ ...schema, components: [...schema.components] });
-	}, []);
+	// const handleFormChange = useCallback((schema) => {
+	// 	setJsonSchema({ ...schema, components: [...schema.components] });
+	// }, []);
 
 	const handleSave = async () => {
 		try {
-			const response = await fetch('/api/form-builder', {
+			const response = await fetch('/api/form/create-form', {
 				method: 'POST',
 				headers: {
 					'x-user': session?.user?.id,
@@ -39,31 +40,31 @@ const CreateForm = () => {
 		}
 	};
 
-	const handleInput = (e) => {
-		const { id, value } = e.target;
-		setFormConfigs((prevConfigs) => ({
-			...prevConfigs,
-			[id]: value,
-		}));
-	};
-	const handleMultiSelectChange = (field, event) => {
-		const selectedOptions = event.target.options;
-		const selectedUsers = [];
+	// const handleInput = (e) => {
+	// 	const { id, value } = e.target;
+	// 	setFormConfigs((prevConfigs) => ({
+	// 		...prevConfigs,
+	// 		[id]: value,
+	// 	}));
+	// };
+	// const handleMultiSelectChange = (field, event) => {
+	// 	const selectedOptions = event.target.options;
+	// 	const selectedUsers = [];
 
-		for (let i = 0; i < selectedOptions.length; i++) {
-			if (selectedOptions[i].selected) {
-				selectedUsers.push(selectedOptions[i].value);
-			}
-		}
+	// 	for (let i = 0; i < selectedOptions.length; i++) {
+	// 		if (selectedOptions[i].selected) {
+	// 			selectedUsers.push(selectedOptions[i].value);
+	// 		}
+	// 	}
 
-		setFormConfigs((prevConfigs) => ({
-			...prevConfigs,
-			[field]: selectedUsers,
-		}));
-	};
+	// 	setFormConfigs((prevConfigs) => ({
+	// 		...prevConfigs,
+	// 		[field]: selectedUsers,
+	// 	}));
+	// };
 	const fetchUsers = async () => {
 		try {
-			const response = await fetch('api/fetch-users');
+			const response = await fetch('/api/fetch-users');
 			if (response.ok) {
 				const users = await response.json();
 				setUsersOptions(users);
@@ -78,7 +79,16 @@ const CreateForm = () => {
 
 	return (
 		<div className="bg-body-secondary p-8 shadow-md">
-			<h1 className="text-2xl font-semibold mb-4">Form Builder</h1>
+			<Form
+				formTitle={'Edit Form '}
+				formConfigs={formConfigs}
+				setFormConfigs={setFormConfigs}
+				usersOptions={usersOptions}
+				jsonSchema = {jsonSchema}
+				setJsonSchema={setJsonSchema}
+				handleSave={handleSave}
+			/>
+			{/* <h1 className="text-2xl font-semibold mb-4">Form Builder</h1>
 			<div className="bg-white p-4 shadow-lg mb-6">
 				<h2 className="text-lg font-semibold mb-2">Form Configs</h2>
 				<div className="flex flex-col md:flex-row gap-8">
@@ -124,7 +134,7 @@ const CreateForm = () => {
 				className="py-2 px-4 bg-blue-500 hover:bg-blue-600 text-white rounded-md focus:outline-none focus:ring focus:border-blue-300"
 			>
 				Save
-			</button>
+			</button> */}
 		</div>
 	);
 };

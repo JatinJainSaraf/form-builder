@@ -2,19 +2,16 @@
 import Link from 'next/link';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import React from 'react';
-import { ROLE } from '@constant/constant';
 import { usePathname } from 'next/navigation';
 
 const Nav = () => {
-	const { data: session, status } = useSession();
+	const {  status } = useSession();
 	const pathname = usePathname();
 
 	const isAuthenticated = status === 'authenticated';
-	const isAdmin = isAuthenticated && session.user.role === ROLE.ADMIN;
 
 	const navLinks = [
 		{ href: '/dashboard', text: 'Dashboard' },
-		{ href: isAdmin ? '/form-builder' : '/fill-form', text: isAdmin ? 'Form Builder' : 'Fill Form' },
 	];
 
 	const renderLinks = () => {
