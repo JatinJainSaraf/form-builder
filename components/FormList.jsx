@@ -16,7 +16,7 @@ const FormList = ({ forms }) => {
 		<>
 			<div className='flex items-center justify-between'>
 				<h2 className="text-2xl font-semibold mb-4">List of Forms</h2>
-				<button className='btn border-black' onClick={()=>router.push('/form-builder/create-form')}> 
+				<button className='btn border-black' onClick={()=>router.push('/form/create-form')}> 
 					<FontAwesomeIcon 
 						icon={faAdd}
 						className='text-danger mx-2'
@@ -45,8 +45,8 @@ const FormList = ({ forms }) => {
 								<td key={'Action'} className="border px-4 py-2">
 									{!form.isFormFilled &&
 										(<button onClick={() => {
-											if(session?.user?.role === ROLE.ADMIN) router.push(`/form-builder/edit-form/${form.formId}`);
-											if(session?.user?.role === ROLE.USER) router.push(`/fill-form/${form.formId}`);
+											if(session?.user?.role === ROLE.ADMIN) router.push(`/form/edit-form/${form.formId}`);
+											if(session?.user?.role === ROLE.USER) router.push(`/form/fill-form/${form.formId}`);
 										}
 										}>
 											<FontAwesomeIcon

@@ -12,6 +12,7 @@ function EditForm({ params: { id } }) {
 		formName: '',
 		selectedUsers: [],
 	});
+	
 	const fetchUsers = async () => {
 		try {
 			const response = await fetch('/api/fetch-users');
@@ -23,16 +24,18 @@ function EditForm({ params: { id } }) {
 			console.error('Error fetching users:', e);
 		}
 	};
+
 	const fetchForm = async (formId) => {
 		try {
-			const response = await fetch(`/api/form/get-form/${formId}`, {
+			const response = await fetch(`/api/get-form/${formId}`, {
 				headers: {
+					'Content-Type': 'application/json',
 					'x-form-id': formId
 				}
 			});
 			if(response.ok) {
+			console.log("🚀 ~ file: page.jsx:32 ~ fetchForm ~ response:", response.json())
 				const formData = await response.json();
-				console.log(formData);
 				setJsonSchema({...formData.fromJson});
 			} else {
 				console.error('Failed to fetch form data. Status:', response.status);
@@ -41,6 +44,7 @@ function EditForm({ params: { id } }) {
 			console.error('Error in fetching form:', e);
 		}
 	};
+
 	const handleSave = async () => {
 		try {
 			const response = await fetch(`/api/form/edit-form/${id}`, {
