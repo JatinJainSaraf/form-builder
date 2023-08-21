@@ -12,6 +12,7 @@ const Form = ({ formTitle, formConfigs, setFormConfigs, usersOptions, jsonSchema
 	const handleFormChange = useCallback((schema) => {
 		setJsonSchema({ ...schema, components: [...schema.components] });
 	}, []);
+	
 	const handleMultiSelectChange = (field, event) => {
 		const selectedOptions = event.target.options;
 		const selectedUsers = [];
@@ -27,6 +28,7 @@ const Form = ({ formTitle, formConfigs, setFormConfigs, usersOptions, jsonSchema
 			[field]: selectedUsers,
 		}));
 	};
+	console.log(formConfigs);
 	return (
 		<div>
 			<h1 className="text-2xl font-semibold mb-4">{formTitle}</h1>
